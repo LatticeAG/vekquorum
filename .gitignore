@@ -1,0 +1,36 @@
+# Spec/source-authority documents — never committed
+SPEC*.md
+*EXTREME*.md
+PROMPT*.md
+*PROMPT*.md
+REVIEW*.md
+*REVIEW*.md
+FIX_PROMPT*
+SELFREVIEW*
+DRAFT*
+REPORT.md
+INTERFACES.md
+STATUS*
+
+# Build outputs / deps
+node_modules/
+dist/
+dist-test/
+*.tsbuildinfo
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+.pytest_cache/
+build/
+
+# Local state — never commit keys or databases
+state/
+keys/
+inbox/
+*.sqlite
+*.sqlite3
+*.pk8
+vq.config.json
+executor.manifest.json
+trust.json

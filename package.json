@@ -1,0 +1,37 @@
+{
+  "name": "vekquorum",
+  "version": "1.0.0-draft.1",
+  "description": "VekQuorum — M-of-N Ed25519 approval over RFC8785-bound action bytes with consume-once commit evidence (protocol vq/1)",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "build:test": "tsc -p tsconfig.test.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "eslint src tests/ts",
+    "test:conformance": "npm run build && npm run build:test && node --test \"dist-test/tests/ts/conformance/*.test.js\"",
+    "test:state": "npm run test:conformance",
+    "test:workers": "npm run test:conformance",
+    "test": "npm run test:conformance",
+    "test:python": "python3 -m pytest tests/conformance -q",
+    "clean": "tsc -p tsconfig.build.json --clean && rm -rf dist dist-test"
+  },
+  "devDependencies": {
+    "@types/node": "22.20.2",
+    "@eslint/js": "9.17.0",
+    "eslint": "9.17.0",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.19.0"
+  },
+  "engines": {
+    "node": ">=22.5.0"
+  },
+  "packageManager": "pnpm@9.15.0"
+}
