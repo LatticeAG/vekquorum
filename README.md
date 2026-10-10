@@ -39,11 +39,26 @@ a caller-pinned trust document — no service call, no freshness claim.
 ## Install
 
 ```bash
-pip install -e python/        # Python SDK + `vq` CLI
-npm install                   # TypeScript core (canonicalize/hash/Ed25519)
+pip install -e python/        # Python SDK + `vq` CLI (Python >= 3.11)
+pnpm install                  # TypeScript core — pnpm@9.15.0 via packageManager
 ```
 
-TypeScript requires Node.js >= 22.5. Python requires `cryptography >= 41`.
+TypeScript requires Node.js >= 22.5. Python requires `cryptography >= 41`
+and Python >= 3.11 — `python/pyproject.toml` sets `requires-python = ">=3.11"`.
+
+The repo pins `packageManager: pnpm@9.15.0` with `pnpm-lock.yaml`; npm does not
+resolve that lockfile, so use `pnpm install` / `pnpm test` (corepack enables
+pnpm on Node >= 22.5: `corepack enable`).
+
+For Python, `pip` must belong to a >= 3.11 interpreter. `uv venv` environments
+ship no `pip` — there use `uv pip install -e python/` instead. For development,
+a venv also puts a suitable `python3` on `PATH`, which `scripts/smoke.sh`
+requires (it invokes `python3 -m vekquorum.cli` directly):
+
+```bash
+uv venv .venv && uv pip install --python .venv/bin/python -e python/
+source .venv/bin/activate && scripts/smoke.sh
+```
 
 ## Quick start
 
