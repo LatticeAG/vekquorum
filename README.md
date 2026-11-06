@@ -39,30 +39,34 @@ a caller-pinned trust document — no service call, no freshness claim.
 ## Install
 
 ```bash
-pip install -e python/        # Python SDK + `vq` CLI
-npm install                   # TypeScript core (canonicalize/hash/Ed25519)
+python3 -m pip install -e python/  # Python SDK + `vq` CLI
+npm install                       # TypeScript core (canonicalize/hash/Ed25519)
 ```
 
 TypeScript requires Node.js >= 22.5. Python requires `cryptography >= 41`.
+The examples use `python3 -m vekquorum.cli` so they work even when pip's
+scripts directory is not on `PATH`. Use the same Python interpreter for
+installation and the commands below. The `vq` shortcut is also available
+when the installed scripts directory is on `PATH`.
 
 ## Quick start
 
 ```bash
-vq keygen --out signer.pk8 --kind human --json
-vq --config vq.config.json configure --policy policy.json --expected-epoch 0 \
-    --request-id vqi_<id> --json
-vq --config vq.config.json propose --action action.json --policy policy.json \
-    --request-id vqi_<id> --json
-vq hash --action action.json --json          # -> action_hash
-vq --config vq.config.json sign --action action.json --policy policy.json \
+python3 -m vekquorum.cli --json keygen --out signer.pk8 --kind human
+python3 -m vekquorum.cli --json --config vq.config.json configure --policy policy.json --expected-epoch 0 \
+    --request-id vqi_<id>
+python3 -m vekquorum.cli --json --config vq.config.json propose --action action.json --policy policy.json \
+    --request-id vqi_<id>
+python3 -m vekquorum.cli --json hash --action action.json  # -> action_hash
+python3 -m vekquorum.cli --config vq.config.json sign --action action.json --policy policy.json \
     --key signer.pk8 --decision approve --confirm-hash <action_hash>
-vq --config vq.config.json submit --proposal <id> --revision <n> \
-    --vote vote.json --request-id vqi_<id> --json
-vq --config vq.config.json commit --proposal <id> --revision <n> \
-    --hash <action_hash> --request-id vqi_<id> --json
-vq --config vq.config.json export --proposal <id> --out proof.json \
-    --request-id vqi_<id> --json
-vq verify --file proof.json --trust trust.json --json
+python3 -m vekquorum.cli --json --config vq.config.json submit --proposal <id> --revision <n> \
+    --vote vote.json --request-id vqi_<id>
+python3 -m vekquorum.cli --json --config vq.config.json commit --proposal <id> --revision <n> \
+    --hash <action_hash> --request-id vqi_<id>
+python3 -m vekquorum.cli --json --config vq.config.json export --proposal <id> --out proof.json \
+    --request-id vqi_<id>
+python3 -m vekquorum.cli --json verify --file proof.json --trust trust.json
 ```
 
 `scripts/smoke.sh` runs the whole ceremony live against the reference
